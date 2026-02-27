@@ -561,20 +561,37 @@ function loadInfografia(nombrePueblo, idioma) {
     const infografiaImg = document.getElementById('infografiaImg');
     const infografiaPlaceholder = document.getElementById('infografiaPlaceholder');
     
-    // Intentar cargar la infografía
-    if (nombrePueblo === 'Tequila') {
-        // Para Tequila, usar archivos locales
+    // Lista de pueblos con infografías disponibles (12 pueblos mágicos)
+    const pueblosConInfografias = [
+        'Ajijic',
+        'Cocula',
+        'Lagos de Moreno',
+        'Mascota',
+        'Mazamitla',
+        'San Sebastián del Oeste',
+        'Sayula',
+        'Talpa de Allende',
+        'Tapalpa',
+        'Temacapulín',
+        'Tequila',
+        'Tlaquepaque'
+    ];
+    
+    // Intentar cargar la infografía para TODOS los pueblos
+    if (pueblosConInfografias.includes(nombrePueblo)) {
+        // Cargar la infografía
         infografiaImg.src = nombreArchivo;
         infografiaImg.style.display = 'block';
         infografiaPlaceholder.style.display = 'none';
         
         // Manejar error si la imagen no se carga
         infografiaImg.onerror = function() {
+            console.warn(`Infografía no encontrada: ${nombreArchivo}`);
             infografiaImg.style.display = 'none';
             infografiaPlaceholder.style.display = 'flex';
         };
     } else {
-        // Para otros pueblos, mostrar placeholder hasta que tengan infografías
+        // Para pueblos sin infografía, mostrar placeholder
         infografiaImg.style.display = 'none';
         infografiaPlaceholder.style.display = 'flex';
     }
