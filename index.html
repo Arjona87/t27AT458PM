@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Turismo - Jalisco</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    
+    <!-- Estilos CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="header-top">
+                <div class="header-left">
+                    <h1>🗺️ Dashboard Turismo - Jalisco</h1>
+                    <p class="subtitle">Explora los pueblos mágicos del estado de Jalisco</p>
+                </div>
+                <div class="header-controls">
+                    <div class="language-selector">
+                        <button id="lang-es" class="lang-btn active" title="Español" data-lang="es">🇲🇽</button>
+                        <button id="lang-en" class="lang-btn" title="English" data-lang="en">🇺🇸</button>
+                    </div>
+                    <div class="status-indicator">
+                        <span id="status-icon">🟢</span>
+                        <span id="status-text">Datos cargados</span>
+                        <button id="manual-update" title="Actualizar datos desde Google Sheets">🔄 Actualizar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="header-logos">
+                <div class="logo-container">
+                    <img src="CGES_1400x400px.png" alt="Coordinación General Estratégica de Seguridad" class="logo-cges">
+                </div>
+                <div class="logo-divider"></div>
+                <div class="logo-container">
+                    <img src="Turismo_Logo.png" alt="Turismo" class="logo-turismo">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenedor Principal -->
+    <main class="main-content">
+        <!-- Mapa Interactivo -->
+        <section class="map-section">
+            <div id="map" class="map-container"></div>
+        </section>
+    </main>
+
+    <!-- Pop-up de Información (Modal) -->
+    <div id="infoModal" class="modal" style="display: none;">
+        <div class="modal-wrapper">
+            <!-- Columna izquierda: Pop-up -->
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <div id="modalBody" class="modal-body">
+                    <!-- El contenido se cargará dinámicamente aquí -->
+                </div>
+            </div>
+            <!-- Columna derecha: Infografía -->
+            <div class="infografia-container">
+                <img id="infografiaImg" src="" alt="Infografía" class="infografia-img">
+                <div id="infografiaPlaceholder" class="infografia-placeholder" style="display: none;">
+                    <p>Infografía no disponible</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Scripts personalizados -->
+    <script src="app.js"></script>
+</body>
+</html>
