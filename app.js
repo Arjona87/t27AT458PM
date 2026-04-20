@@ -434,20 +434,20 @@ function onEachFeature(feature, layer) {
         this.closeTooltip();
     });
 
-    // Evento de click para mostrar información
-    layer.on('click', function() {
-        // Remover estilo activo del municipio anterior
-        if (currentActiveFeature && currentActiveFeature !== this) {
-            currentActiveFeature.setStyle(STYLES.default);
-        }
-
-        // Establecer nuevo municipio como activo
-        currentActiveFeature = this;
-        this.setStyle(STYLES.active);
-
-        // Mostrar modal con información
-        showPuebloInfo(municipioNombre);
-    });
+    // Evento de click DESACTIVADO - Solo los iconos de pueblos mágicos son clickeables
+    // layer.on('click', function() {
+    //     // Remover estilo activo del municipio anterior
+    //     if (currentActiveFeature && currentActiveFeature !== this) {
+    //         currentActiveFeature.setStyle(STYLES.default);
+    //     }
+    //
+    //     // Establecer nuevo municipio como activo
+    //     currentActiveFeature = this;
+    //     this.setStyle(STYLES.active);
+    //
+    //     // Mostrar modal con información
+    //     showPuebloInfo(municipioNombre);
+    // });
 }
 
 // ============================================
@@ -561,7 +561,7 @@ function loadInfografia(nombrePueblo, idioma) {
     const infografiaImg = document.getElementById('infografiaImg');
     const infografiaPlaceholder = document.getElementById('infografiaPlaceholder');
     
-    // Lista de pueblos con infografías disponibles (12 pueblos mágicos)
+    // Lista de pueblos con infografías disponibles (12 pueblos mágicos + 3 municipios regulares)
     const pueblosConInfografias = [
         'Ajijic',
         'Cocula',
@@ -574,7 +574,10 @@ function loadInfografia(nombrePueblo, idioma) {
         'Tapalpa',
         'Temacapulín',
         'Tequila',
-        'Tlaquepaque'
+        'Tlaquepaque',
+        'Guadalajara',
+        'Zapopan',
+        'PuertoVallarta'
     ];
     
     // Intentar cargar la infografía para TODOS los pueblos
