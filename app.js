@@ -519,11 +519,13 @@ function showPuebloInfo(nombrePueblo) {
     }
 
     // Agregar seccion de consejos de seguridad
+    // Convertir saltos de línea en <br> para mostrar correctamente
+    const infoSeguidadFormateada = infoSeguridad.replace(/\n/g, '<br>');
     contenido += `
         <div class="info-section">
             <div class="info-label">🛡️ ${labelSeguridad}</div>
             <div class="info-value recomendaciones">
-                <div class="recomendaciones-text">${infoSeguridad}</div>
+                <div class="recomendaciones-text">${infoSeguidadFormateada}</div>
             </div>
         </div>
 
@@ -706,4 +708,222 @@ document.addEventListener('DOMContentLoaded', function() {
             changeLanguage(lang);
         });
     });
+});
+
+// ============================================
+// HERO BANNER CON VIDEO SLIDER - FUNCIONES
+// ============================================
+
+// 🔴 LÍNEA CRÍTICA: Cambiar este número para agregar/quitar videos
+const TOTAL_VIDEOS = 3;
+
+// Array de slides con videos, títulos, subtítulos y segmentos de tiempo
+const videoSlides = [
+    {
+        videoUrl: 'https://d31d1duc75brv0.cloudfront.net/8279/video-los-altos-del-tequila.mp4',
+        title: 'EXPLORA LOS ALTOS DEL TEQUILA',
+        subtitle: 'Descubre el paisaje agavero, Patrimonio de la Humanidad, en el corazón de Jalisco',
+        posterUrl: 'https://via.placeholder.com/1920x1080?text=Los+Altos+del+Tequila',
+        startTime: 0,
+        endTime: 30
+    },
+    {
+        videoUrl: 'https://d31d1duc75brv0.cloudfront.net/7986/Guadalajara_1.mp4',
+        title: 'EXPLORA GUADALAJARA',
+        subtitle: 'Vive la tradición, modernidad y gastronomía única de la capital tapatía',
+        posterUrl: 'https://via.placeholder.com/1920x1080?text=Guadalajara',
+        startTime: 0,
+        endTime: 25
+    },
+    {
+        videoUrl: 'https://d31d1duc75brv0.cloudfront.net/8344/Dise%C3%B1o-sin-t%C3%ADtulo.mp4',
+        title: 'EXPLORA LOS DESTINOS DE JALISCO',
+        subtitle: 'Playas, pueblos mágicos y experiencias que no olvidarás',
+        posterUrl: 'https://via.placeholder.com/1920x1080?text=Destinos+Jalisco',
+        startTime: 0,
+        endTime: 20
+    }
+];
+
+let currentSlideIndex = 0;
+let isVideoReady = false;
+
+/**
+ * Inicializar el hero banner
+ */
+function initHeroBanner() {
+    videoElement = document.getElementById('videoElement');
+    loader = document.getElementById('loader');
+    
+    if (!videoElement) {
+        console.error('Elemento de video no encontrado');
+        return;
+    }
+    
+    updateTotalSlides();
+    loadSlide(0);
+    setupVideoEventListeners();
+}
+
+/**
+ * Cargar un slide específico
+ */
+function loadSlide(index) {
+    // Validar índice
+    if (index < 0) {
+        currentSlideIndex = TOTAL_VIDEOS - 1;
+    } else if (index >= TOTAL_VIDEOS) {
+        currentSlideIndex = 0;
+    } else {
+        currentSlideIndex = index;
+    }
+
+    const slide = videoSlides[currentSlideIndex];
+
+    // Actualizar título y subtítulo
+    document.getElementById('bannerTitle').textContent = slide.title;
+    document.getElementById('bannerSubtitle').textContent = slide.subtitle;
+
+    // Actualizar contador
+    document.getElementById('currentSlide').textContent = currentSlideIndex + 1;
+
+    // Cargar video
+    loadVideo(slide);
+}
+
+/**
+ * Cargar video en el elemento <video>
+ */
+function loadVideo(slide) {
+    isVideoReady = false;
+    showLoader();
+
+    // Establecer poster
+    videoElement.poster = slide.posterUrl;
+
+    // Establecer source del video
+    videoElement.src = slide.videoUrl;
+
+    // Guardar tiempos de segmento en atributos data
+    videoElement.dataset.startTime = slide.startTime;
+    videoElement.dataset.endTime = slide.endTime;
+
+    // Cargar el video
+    videoElement.load();
+
+    // Intentar reproducir
+    const playPromise = videoElement.play();
+    if (playPromise !== undefined) {
+        playPromise
+            .then(() => {
+                console.log('Video reproduciendo:', slide.title);
+            })
+            .catch(error => {
+                console.error('Error al reproducir video:', error);
+            });
+    }
+}
+
+/**
+ * Configurar event listeners del video
+ */
+function setupVideoEventListeners() {
+    videoElement.addEventListener('canplay', handleVideoReady);
+    videoElement.addEventListener('loadeddata', handleVideoReady);
+    videoElement.addEventListener('timeupdate', handleVideoTimeUpdate);
+    videoElement.addEventListener('ended', handleVideoEnded);
+    videoElement.addEventListener('error', handleVideoError);
+}
+
+/**
+ * Manejar cuando el video está listo
+ */
+function handleVideoReady() {
+    isVideoReady = true;
+    hideLoader();
+    console.log('Video listo para reproducir');
+}
+
+/**
+ * Manejar actualización de tiempo del video
+ * Controla el segmento de tiempo (startTime - endTime)
+ */
+function handleVideoTimeUpdate() {
+    const startTime = parseFloat(videoElement.dataset.startTime) || 0;
+    const endTime = parseFloat(videoElement.dataset.endTime) || videoElement.duration;
+
+    // Si el video pasó el tiempo final, ir al siguiente slide
+    if (videoElement.currentTime >= endTime) {
+        nextSlide();
+    }
+
+    // Si el video está antes del tiempo inicial, saltar a startTime
+    if (videoElement.currentTime < startTime) {
+        videoElement.currentTime = startTime;
+    }
+}
+
+/**
+ * Manejar cuando el video termina
+ */
+function handleVideoEnded() {
+    console.log('Video terminado, pasando al siguiente slide');
+    nextSlide();
+}
+
+/**
+ * Manejar errores del video
+ */
+function handleVideoError() {
+    console.error('Error al cargar el video');
+    hideLoader();
+    document.getElementById('bannerTitle').textContent = 'Error al cargar el video';
+}
+
+/**
+ * Ir al siguiente slide
+ */
+function nextSlide() {
+    loadSlide(currentSlideIndex + 1);
+}
+
+/**
+ * Ir al slide anterior
+ */
+function previousSlide() {
+    loadSlide(currentSlideIndex - 1);
+}
+
+/**
+ * Actualizar el total de slides mostrado
+ */
+function updateTotalSlides() {
+    document.getElementById('totalSlides').textContent = TOTAL_VIDEOS;
+}
+
+/**
+ * Mostrar indicador de carga
+ */
+function showLoader() {
+    if (loader) {
+        loader.classList.remove('hidden');
+    }
+}
+
+/**
+ * Ocultar indicador de carga
+ */
+function hideLoader() {
+    if (loader) {
+        loader.classList.add('hidden');
+    }
+}
+
+// ============================================
+// INICIALIZAR HERO BANNER AL CARGAR LA PÁGINA
+// ============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicializar hero banner
+    initHeroBanner();
 });

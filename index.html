@@ -12,43 +12,84 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Header -->
-    <header class="app-header">
-        <div class="header-content">
-            <div class="header-top">
-                <div class="header-left">
-                    <h1>🗺️ Disfruta del Mundial de Futbol Al Estilo Jalisco</h1>
-                    <p class="subtitle">Explora los pueblos mágicos del estado de Jalisco</p>
-                </div>
-                <div class="header-controls">
-                    <div class="language-selector">
-                        <button id="lang-es" class="lang-btn active" title="Español" data-lang="es">🇲🇽</button>
-                        <button id="lang-en" class="lang-btn" title="English" data-lang="en">🇺🇸</button>
-                    </div>
-                    <div class="status-indicator">
-                        <span id="status-icon">🟢</span>
-                        <span id="status-text">Datos cargados</span>
-                        <button id="manual-update" title="Actualizar datos desde Google Sheets">🔄 Actualizar</button>
-                    </div>
-                </div>
-            </div>
-            <div class="header-logos">
-                <div class="logo-container">
-                    <img src="CGES_1400x400px.png" alt="Coordinación General Estratégica de Seguridad" class="logo-cges">
-                </div>
-                <div class="logo-divider"></div>
-                <div class="logo-container">
-                    <img src="Turismo_Logo.png" alt="Turismo" class="logo-turismo">
-                </div>
-                <div class="logo-divider"></div>
-                <div class="logo-container">
-                    <img src="JaliscoEsMexico.png" alt="Turismo2" class="logo-turismo2">
-                </div>
-            </div>
+    <!-- HERO BANNER CONTAINER - CONTIENE TODO -->
+    <div class="hero-banner-wrapper">
+        <!-- Video de fondo -->
+        <div class="hero-banner__video-container">
+            <video 
+                class="hero-banner__video" 
+                id="videoElement"
+                autoplay 
+                muted 
+                playsinline
+                webkit-playsinline
+                preload="metadata"
+            ></video>
         </div>
-    </header>
 
-    <!-- Contenedor Principal -->
+        <!-- Overlay oscuro -->
+        <div class="hero-banner__overlay"></div>
+
+        <!-- HEADER DENTRO DEL BANNER -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="header-top">
+                    <!-- LOGOS A LA IZQUIERDA -->
+                    <div class="header-logos">
+                        <div class="logo-container">
+                            <img src="CGES_1400x400px.png" alt="Coordinación General Estratégica de Seguridad" class="logo-cges">
+                        </div>
+                        <div class="logo-divider"></div>
+                        <div class="logo-container">
+                            <img src="Turismo_Logo.png" alt="Turismo" class="logo-turismo">
+                        </div>
+                        <div class="logo-divider"></div>
+                        <div class="logo-container">
+                            <img src="JaliscoEsMexico.png" alt="Turismo2" class="logo-turismo2">
+                        </div>
+                    </div>
+
+                    <!-- TÍTULO EN EL CENTRO -->
+                    <div class="header-left">
+                        <h1>🗺️ Disfruta del Mundial de Futbol Al Estilo Jalisco</h1>
+                        <p class="subtitle">Explora los pueblos mágicos del estado de Jalisco</p>
+                    </div>
+
+                    <!-- CONTROLES A LA DERECHA -->
+                    <div class="header-controls">
+                        <div class="language-selector">
+                            <button id="lang-es" class="lang-btn active" title="Español" data-lang="es">🇲🇽</button>
+                            <button id="lang-en" class="lang-btn" title="English" data-lang="en">🇺🇸</button>
+                        </div>
+                        <div class="status-indicator">
+                            <span id="status-icon">🟢</span>
+                            <span id="status-text">Datos cargados</span>
+                            <button id="manual-update" title="Actualizar datos desde Google Sheets">🔄 Actualizar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTENIDO DEL BANNER (Título, subtítulo, botón) -->
+        <div class="hero-banner__content">
+            <h2 class="hero-banner__title" id="bannerTitle">Título del Slide</h2>
+            <p class="hero-banner__subtitle" id="bannerSubtitle">Subtítulo descriptivo del destino</p>
+            <button class="hero-banner__cta" onclick="alert('Botón CTA clickeado')">VER MÁS →</button>
+        </div>
+
+        <!-- Indicador de carga -->
+        <div class="hero-banner__loader" id="loader"></div>
+
+        <!-- Controles de navegación -->
+        <div class="hero-banner__controls">
+            <span class="hero-banner__counter"><span id="currentSlide">1</span> — <span id="totalSlides">3</span></span>
+            <button class="hero-banner__nav-button" id="prevBtn" onclick="previousSlide()">←</button>
+            <button class="hero-banner__nav-button" id="nextBtn" onclick="nextSlide()">→</button>
+        </div>
+    </div>
+
+    <!-- Contenedor Principal - FUERA DEL BANNER -->
     <main class="main-content">
         <!-- Mapa Interactivo -->
         <section class="map-section">
