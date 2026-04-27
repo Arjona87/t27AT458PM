@@ -563,7 +563,7 @@ function loadInfografia(nombrePueblo, idioma) {
     const infografiaImg = document.getElementById('infografiaImg');
     const infografiaPlaceholder = document.getElementById('infografiaPlaceholder');
     
-    // Lista de pueblos con infografías disponibles (12 pueblos mágicos + 3 municipios regulares)
+    // Lista de pueblos con infografías disponibles (12 pueblos mágicos + 5 municipios regulares)
     const pueblosConInfografias = [
         'Ajijic',
         'Cocula',
@@ -579,7 +579,9 @@ function loadInfografia(nombrePueblo, idioma) {
         'Tlaquepaque',
         'Guadalajara',
         'Zapopan',
-        'PuertoVallarta'
+        'PuertoVallarta',
+        'Tonalá',
+        'Costa Alegre'
     ];
     
     // Intentar cargar la infografía para TODOS los pueblos
